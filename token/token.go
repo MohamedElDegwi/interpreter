@@ -8,7 +8,7 @@ type Token struct {
 }
 
 var keywords = map[string]TokenType{
-	"fn": FUNCTION,
+	"fn":  FUNCTION,
 	"let": LET,
 }
 
@@ -38,7 +38,7 @@ const (
 	LET      = "LET"
 )
 
-func LookupIdnet (ident string) TokenType {
+func LookupIdnet(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
