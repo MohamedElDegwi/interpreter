@@ -5,36 +5,28 @@ import (
 	"strings"
 )
 
-var traceLevel int = 0
-var TraceEnabled bool = false
-var CapturedTraces []string
-
 const traceIdentPlaceholder string = "\t"
 
-func identLevel() string {
-	return strings.Repeat(traceIdentPlaceholder, traceLevel-1)
+func (p *Parser) identLevel() string {
+	return strings.Repeat(traceIdentPlaceholder, p.traceLevel-1)
 }
 
-func tracePrint(fs string) {
-	if !TraceEnabled {
-		return
-	}
+func (p *Parser) tracePrint(fs string) {
+	msg := fmt.Sprintf("%s%s\n", p.identLevel(), fs)
 
-	msg := fmt.Sprintf("%s%s\n", identLevel(), fs)
-
-	CapturedTraces = append(CapturedTraces, msg)
+	p.traces = append(p.traces, msg)
 }
 
-func incIdent() { traceLevel = traceLevel + 1 }
-func decIdent() { traceLevel = traceLevel - 1 }
+func (p *Parser) incIdent() { p.traceLevel = p.traceLevel + 1 }
+func (p *Parser) decIdent() { p.traceLevel = p.traceLevel - 1 }
 
-func trace(msg string) string {
-	incIdent()
-	tracePrint("BEGIN " + msg)
+func (p *Parser) trace(msg string) string {
+	p.incIdent()
+	p.tracePrint("BEGIN " + msg)
 	return msg
 }
 
-func untrace(msg string) {
-	tracePrint("END " + msg)
-	decIdent()
+func (p *Parser) untrace(msg string) {
+	p.tracePrint("END " + msg)
+	p.decIdent()
 }
