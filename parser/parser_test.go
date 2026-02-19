@@ -8,6 +8,8 @@ import (
 )
 
 func TestLetStatements(t *testing.T) {
+	tracesStrarter(t)
+
 	tests := []struct {
 		input              string
 		expectedIdentifier string
@@ -42,6 +44,8 @@ func TestLetStatements(t *testing.T) {
 }
 
 func TestReturnStatements(t *testing.T) {
+	tracesStrarter(t)
+
 	tests := []struct {
 		input         string
 		expectedValue interface{}
@@ -78,6 +82,8 @@ func TestReturnStatements(t *testing.T) {
 }
 
 func TestIdentifierExpression(t *testing.T) {
+	tracesStrarter(t)
+
 	input := "foobar;"
 
 	l := lexer.New(input)
@@ -109,6 +115,8 @@ func TestIdentifierExpression(t *testing.T) {
 }
 
 func TestIntegerLiteralExpression(t *testing.T) {
+	tracesStrarter(t)
+
 	input := "5;"
 
 	l := lexer.New(input)
@@ -140,6 +148,8 @@ func TestIntegerLiteralExpression(t *testing.T) {
 }
 
 func TestParsingPrefixExpressions(t *testing.T) {
+	tracesStrarter(t)
+
 	prefixTests := []struct {
 		input    string
 		operator string
@@ -185,6 +195,8 @@ func TestParsingPrefixExpressions(t *testing.T) {
 }
 
 func TestParsingInfixExpressions(t *testing.T) {
+	tracesStrarter(t)
+
 	infixTests := []struct {
 		input      string
 		leftValue  interface{}
@@ -237,6 +249,8 @@ func TestParsingInfixExpressions(t *testing.T) {
 }
 
 func TestOperatorPrecedenceParsing(t *testing.T) {
+	tracesStrarter(t)
+
 	tests := []struct {
 		input    string
 		expected string
@@ -357,6 +371,8 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 }
 
 func TestBooleanExpression(t *testing.T) {
+	tracesStrarter(t)
+
 	tests := []struct {
 		input           string
 		expectedBoolean bool
@@ -394,6 +410,8 @@ func TestBooleanExpression(t *testing.T) {
 }
 
 func TestIfExpression(t *testing.T) {
+	tracesStrarter(t)
+
 	input := `if (x < y) { x }`
 
 	l := lexer.New(input)
@@ -443,6 +461,8 @@ func TestIfExpression(t *testing.T) {
 }
 
 func TestIfElseExpression(t *testing.T) {
+	tracesStrarter(t)
+
 	input := `if (x < y) { x } else { y }`
 
 	l := lexer.New(input)
@@ -502,6 +522,8 @@ func TestIfElseExpression(t *testing.T) {
 }
 
 func TestFunctionLiteralParsing(t *testing.T) {
+	tracesStrarter(t)
+
 	input := `fn(x, y) { x + y; }`
 
 	l := lexer.New(input)
@@ -549,6 +571,8 @@ func TestFunctionLiteralParsing(t *testing.T) {
 }
 
 func TestFunctionParameterParsing(t *testing.T) {
+	tracesStrarter(t)
+
 	tests := []struct {
 		input          string
 		expectedParams []string
@@ -579,6 +603,8 @@ func TestFunctionParameterParsing(t *testing.T) {
 }
 
 func TestCallExpressionParsing(t *testing.T) {
+	tracesStrarter(t)
+
 	input := "add(1, 2 * 3, 4 + 5);"
 
 	l := lexer.New(input)
@@ -757,8 +783,27 @@ func checkParserErrors(t *testing.T, p *Parser) {
 	}
 
 	t.Errorf("parser has %d errors", len(errors))
+
+	t.Log("--- PARSER TRACES ---")
+
+	for _, msg := range CapturedTraces {
+		t.Log(msg)
+	}
+	t.Log("---------------------")
+
 	for _, msg := range errors {
 		t.Errorf("parser error: %q", msg)
 	}
 	t.FailNow()
+}
+
+func tracesStrarter(t *testing.T) {
+	t.Helper()
+
+	TraceEnabled = true
+	CapturedTraces = []string{}
+
+	t.Cleanup(func() {
+		TraceEnabled = false
+	})
 }
