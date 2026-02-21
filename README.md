@@ -1,3 +1,11 @@
-This is my implementation of the Monkey programming language, following the book "Writing An Interpreter In Go" by Thorsten Ball.
+## This is my implementation of the Monkey(well... better call it Digo's language from now on) programming language, following the book "Writing An Interpreter In Go" by Thorsten Ball
 
-// TODO: Update the README
+## What this can do
+
+it supports:
+* functions
+* higher order functions
+* closures
+* integers and arithmatic
+* if, if else statements
+* variables bindings
