@@ -50,18 +50,17 @@ func Start(in io.Reader, out io.Writer) {
 		evaluated := evaluator.Eval(program, env)
 
 		if evaluated != nil {
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n")
+			fmt.Fprintln(out, evaluated.Inspect())
 		}
 	}
 }
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, "WOOPS!\n")
-	io.WriteString(out, "YOU can't escape with that Bud ;)\n")
-	io.WriteString(out, "parser errors: \n")
+	fmt.Fprintln(out, "WOOPS!")
+	fmt.Fprintln(out, "YOU can't escape with that Bud ;)")
+	fmt.Fprintln(out, "parser errors: ")
 
 	for _, msg := range errors {
-		io.WriteString(out, "\t"+msg+"\n")
+		fmt.Fprintf(out, "\t%s\n", msg)
 	}
 }
