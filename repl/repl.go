@@ -5,14 +5,19 @@ import (
 	"fmt"
 	"interpreter/evaluator"
 	"interpreter/lexer"
+	"interpreter/object"
 	"interpreter/parser"
 	"io"
+	"strings"
 )
 
 const PROMPT = ">> "
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+
+	fmt.Println("\nSpecial Commands:")
+	fmt.Print("  exit       - quit the REPL\n\n")
 
 	for {
 		fmt.Print(PROMPT)
@@ -23,8 +28,18 @@ func Start(in io.Reader, out io.Writer) {
 		}
 
 		line := scanner.Text()
+
+		input := strings.TrimSpace(scanner.Text())
+		if input == "exit" {
+			break
+		}
+		if input == "" {
+			continue
+		}
+
 		l := lexer.New(line)
 		p := parser.New(l)
+		env := object.NewEnvironment()
 
 		program := p.ParseProgram()
 		if len(p.Errors()) != 0 {
@@ -32,7 +47,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
