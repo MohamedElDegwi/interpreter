@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"interpreter/repl"
+	"interpreter/internal/repl"
 	"os"
 	"os/user"
 )
