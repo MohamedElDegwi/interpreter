@@ -15,6 +15,6 @@ func main() {
 	}
 
 	fmt.Printf("Hello %s! This is the Digo programming language!\n", user.Username)
-	fmt.Printf("Feel free to tye in commands\n")
+	fmt.Printf("Feel free to type in commands ;)\n")
 	repl.Start(os.Stdin, os.Stdout)
 }
