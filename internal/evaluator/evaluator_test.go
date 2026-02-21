@@ -67,13 +67,12 @@ func TestErrorHandling(t *testing.T) {
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{`
-if (10 > 1) {
-if (10 > 1) {
-return true + false;
-}
-return 1;
-}
-`,
+		if (10 > 1) {
+			if (10 > 1) {
+				return true + false;
+			}
+		return 1;
+		}`,
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{
@@ -255,12 +254,12 @@ func TestReturnStatements(t *testing.T) {
 		{"return 2 * 5; 9;", 10},
 		{"9; return 2 * 5; 9;", 10},
 		{`
-if (10 > 1) {
-if (10 > 1) {
-return 10;
-}
-return 1;
-}`,
+		if (10 > 1) {
+			if (10 > 1) {
+				return 10;
+			}
+		return 1;
+		}`,
 			10,
 		},
 	}
