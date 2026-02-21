@@ -15,6 +15,7 @@ const PROMPT = ">> "
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnvironment()
 
 	fmt.Println("\nSpecial Commands:")
 	fmt.Print("  exit       - quit the REPL\n\n")
@@ -39,7 +40,6 @@ func Start(in io.Reader, out io.Writer) {
 
 		l := lexer.New(line)
 		p := parser.New(l)
-		env := object.NewEnvironment()
 
 		program := p.ParseProgram()
 		if len(p.Errors()) != 0 {
